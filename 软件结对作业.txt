@@ -1,0 +1,221 @@
+import java.awt.*;
+
+import java.awt.event.*;
+
+public class tuxing extends Frame 
+
+             implements      ActionListener,ItemListener,WindowListener     //写出监听接口，按首字母排列写出
+
+{
+
+Color color = Color.red;                  //画线的颜色
+
+Panel p1;
+
+TextField text;
+
+Choice c;
+
+MenuBar mb1;
+
+Menu mf1,me1,mh1,md1;
+
+CheckboxMenuItem cbmi1;
+
+PopupMenu pm1;
+
+Dialog d;
+
+int drawG;//记录画什么图形
+
+
+
+public tuxing()
+
+{
+
+     super     ("图形界面设计");               
+
+Label l1=new Label("画字内容");
+
+text=new TextField("",20);
+
+Label l2=new Label("设置颜色");
+
+c=new Choice();
+
+c.     addItem      ("红色");
+
+c.     addItem     ("蓝色");
+
+c.     addItem     ("黄色");
+
+c.     addItem     ("绿色");
+
+p1=new Panel();
+
+p1.     add(l1)     ;
+
+p1.     add(text)     ;
+
+p1.     add(l2)     ;
+
+p1.     add(c)     ;
+
+add(p1,"North");
+
+
+
+text.     addActionListener(this)     ;           //注册文本行的事件监听程序
+
+this.     addWindowListener(this)     ;//窗口监听事件注册
+
+c.     addItemListener(this)     ;              //注册选择框事件监听程序
+
+
+
+setSize(540,380);
+
+setLocation(400,200);
+
+p1.setBackground(Color.lightGray);
+
+setBackground(Color.white);
+
+setVisible(true);     
+
+
+
+d = new Dialog(     this     ,"Dialog Example",true);
+
+d.add(new Label("打开一个对话框"),"Center");
+
+d.setSize(120,60);
+
+d.setLocation(500,300);
+
+d.     addWindowListener(this)     ;      //为对话框d注册事件监听程序   
+
+addmyMenu();
+
+    }
+
+public void addmyMenu()
+
+    {
+
+        mb1 = new MenuBar();             //生成一个菜单栏
+
+        this.     setMenuBar(mb1)     ;               //框架f上添加菜单栏
+
+        mf1 = new Menu("File");          //生成一个菜单
+
+        me1 = new Menu("Edit");
+
+        mh1 = new Menu("Help");
+
+        mb1.add(mf1);                    //菜单栏中加入菜单
+
+        mb1.add(me1);
+
+        mb1.add(mh1);
+
+             mf1.add(new MenuItem("Open"))     ;   //生成菜单项Open并加入到File菜单
+
+       mf1.addActionListener(this);
+
+             me1.add(new MenuItem("画圆"))     ;  //生成菜单项画圆并加入到Edit菜单
+
+             me1.add(new MenuItem("画矩形“))     ; //生成菜单项画矩形并加入到Edit菜单
+
+             me1.add(new MenuItem("画线"))     ; //生成菜单项画线并加入到Edit菜单
+
+       me1.addActionListener(this);
+
+    }
+
+    public void actionPerformed(ActionEvent e)
+
+    {
+
+if (e.getSource()==text)      repaint()     ;
+
+if(e.getActionCommand()=="Open")         d.setVisible(true)      ;
+
+if(e.getActionCommand()=="画圆") {   drawG=1;repaint();}
+
+if(e.getActionCommand()=="画矩形"){  drawG=2;repaint(); }
+
+if(e.getActionCommand()=="画线") {   drawG=3;repaint();}
+
+    }
+
+
+
+    public void      itemStateChanged     (ItemEvent e)
+
+    {
+
+        if (c.getSelectedItem()=="红色")  color = Color.red;          //对选择框操作时触发
+
+        if (c.getSelectedItem()=="蓝色")  color = Color.blue;
+
+        if (c.getSelectedItem()=="黄色")  color = Color.yellow;
+
+        if (c.getSelectedItem()=="绿色")  color = Color.green;
+
+        repaint();
+
+    }
+
+
+
+ public void windowClosing(WindowEvent e)
+
+    {
+
+        System.exit(0);
+
+    }
+
+public void windowOpened(WindowEvent e){}
+
+public void windowActivated(WindowEvent e){}
+
+public void windowDeactivated(WindowEvent e){}
+
+public void windowClosed(WindowEvent e){}
+
+public void windowIconified(WindowEvent e){}
+
+public void windowDeiconified(WindowEvent e){}
+
+
+
+ public void      paint(Graphics g)     
+
+    {
+
+        g.setColor(color);
+
+        g.     drawString     (text.getText(),350,350);//画字符串
+
+        if(drawG==1)g.     drawOval     (100,100,200,200);
+
+        if(drawG==2)g.     drawRect     (200,150,120,100);
+
+        if(drawG==3)g.     drawLine     (10,180,170,330);
+
+    }
+
+
+
+ public static void main(String arg[])
+
+    {
+
+        new tuxing();
+
+    }
+
+}
